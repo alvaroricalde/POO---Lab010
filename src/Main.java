@@ -69,6 +69,10 @@ public class Main {
 
                                 break;
                             case 5:
+                                System.out.print("\nIngrese el identificador del producto a eliminar: ");
+                                String id_producto_eliminar = scanner.nextLine();
+
+                                databaseConnector.deleteProducto(id_producto_eliminar);
                                 break;
                             case 6:
                                 System.out.println("Regresando al menu principal");
