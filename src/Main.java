@@ -56,6 +56,17 @@ public class Main {
                                 databaseConnector.selectProductos(id_producto_buscar);
                                 break;
                             case 4:
+                                System.out.print("\nIngrese el identificador del producto a actualizar: ");
+                                String id_producto_actualizar = scanner.nextLine();
+                                System.out.print("Igrese el nombre del producto a actualizar: ");
+                                String nombre_actualizar = scanner.nextLine();
+                                System.out.print("Ingrese el precio del producto a actualizar: ");
+                                float precio_actualizar = Float.parseFloat(scanner.nextLine());
+                                System.out.print("Ingrese el stock del producto a actualizar: ");
+                                int stock_actualizar = Integer.parseInt(scanner.nextLine());
+
+                                databaseConnector.updateProducto(id_producto_actualizar, nombre_actualizar, precio_actualizar, stock_actualizar);
+
                                 break;
                             case 5:
                                 break;
