@@ -50,6 +50,10 @@ public class Main {
                                 databaseConnector.selectProductos();
                                 break;
                             case 3:
+                                System.out.print("\nIngrese el identificador del producto a buscar: ");
+                                String id_producto_buscar = scanner.nextLine();
+
+                                databaseConnector.selectProductos(id_producto_buscar);
                                 break;
                             case 4:
                                 break;

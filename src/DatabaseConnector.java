@@ -37,6 +37,31 @@ public class DatabaseConnector {
 
     }
 
+    public void selectProductos(String id_producto_buscar) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM producto WHERE id_producto = '" + id_producto_buscar + "'";
+
+            ResultSet resultSet = statement.executeQuery(query);
+
+            //si resulset tiene mas filas
+            if (resultSet.next()) {
+                String id_producto = resultSet.getString("id_producto");
+                String nombre = resultSet.getString("nombre");
+                float precio = resultSet.getFloat("precio");
+                int stock = resultSet.getInt("stock");
+
+                System.out.println(id_producto + " - " + nombre + " - " + precio + " - " + stock);
+            } else {
+                System.out.println("No se encontro un producto con ese identificador");
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
     public void insertProductos(String id_producto, String nombre, float precio, int stock) {
         try {
             Statement statement = connection.createStatement();
