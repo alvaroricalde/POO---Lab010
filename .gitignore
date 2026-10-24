@@ -1,0 +1,11 @@
+# Archivos generados por Java
+out/
+*.class
+
+# Configuración local de IntelliJ IDEA
+.idea/
+*.iml
+
+# Carpetas de compilación de otras herramientas
+target/
+build/
