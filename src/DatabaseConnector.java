@@ -70,8 +70,12 @@ public class DatabaseConnector {
                     + id_producto + "', '" + nombre + "', "
                     + precio + ", " + stock + ");";
             int filasAfectadas = statement.executeUpdate(query);
-            System.out.println("Filas afectadas: " + filasAfectadas);
-            System.out.println("Producto registrado");
+            System.out.println("\nFilas afectadas: " + filasAfectadas);
+
+            if (filasAfectadas > 0) {
+                System.out.println("Producto registrado correctamente");
+            }
+
         } catch (SQLException error) {
             System.out.println(error.getMessage());
         }
@@ -87,6 +91,10 @@ public class DatabaseConnector {
                     " WHERE id_producto = '" + id_producto + "'";
             int filasAfectadas = statement.executeUpdate(query);
             System.out.println("Filas afectadas: " + filasAfectadas);
+
+            if (filasAfectadas > 0) {
+                System.out.println("Producto actualizado correctamente");
+            }
         } catch (SQLException error) {
             System.out.println(error.getMessage());
         }
@@ -98,6 +106,10 @@ public class DatabaseConnector {
             String query = "DELETE FROM producto WHERE id_producto = '" + id_producto + "'";
             int filasAfectadas = statement.executeUpdate(query);
             System.out.println("Filas afectadas: " + filasAfectadas);
+
+            if (filasAfectadas > 0) {
+                System.out.println("Producto eliminado correctamente");
+            }
         } catch (SQLException error) {
             System.out.println(error.getMessage());
         }
