@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         DatabaseConnector databaseConnector = new DatabaseConnector();
         databaseConnector.conectarBaseDeDatos();
-        databaseConnector.selectProductos();
+        //databaseConnector.selectProductos();
 
 
         //databaseConnector.insertProductos("P6", "Camisa", 35, 20);
@@ -43,8 +43,11 @@ public class Main {
                                 float precio = Float.parseFloat(scanner.nextLine());
                                 System.out.print("Ingrese el stock del producto: ");
                                 int stock = Integer.parseInt(scanner.nextLine());
+
+                                databaseConnector.insertProductos(id_producto, nombre, precio, stock);
                                 break;
                             case 2:
+                                databaseConnector.selectProductos();
                                 break;
                             case 3:
                                 break;
@@ -58,7 +61,7 @@ public class Main {
                             default:
                                 System.out.println("Opcion incorrecta");
                         }
-                    } while (opcionSubMenu!=6);
+                    } while (opcionSubMenu != 6);
 
                     break;
                 case 2:

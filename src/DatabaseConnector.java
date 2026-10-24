@@ -46,6 +46,7 @@ public class DatabaseConnector {
                     + precio + ", " + stock + ");";
             int filasAfectadas = statement.executeUpdate(query);
             System.out.println("Filas afectadas: " + filasAfectadas);
+            System.out.println("Producto registrado");
         } catch (SQLException error) {
             System.out.println(error.getMessage());
         }
