@@ -115,4 +115,95 @@ public class DatabaseConnector {
         }
     }
 
+    // TABLA EMPLEADOS -------------------------------------------------------
+    public void selectEmpleado() {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM empleado";
+
+            ResultSet resultSet = statement.executeQuery(query);
+
+            //si resulset tiene mas filas
+            while (resultSet.next()) {
+                String id_empleado = resultSet.getString("id_empleado");
+                String nombre = resultSet.getString("nombre");
+                String usuario = resultSet.getString("usuario");
+                String contrasena = resultSet.getString("contrasena");
+                String rol = resultSet.getString("rol");
+
+                System.out.println(id_empleado + " - " + nombre + " - " + usuario + " - " + contrasena + " - " + rol);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void selectEmpleado(String id_empleado_buscar) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM empleado WHERE id_empleado = '" + id_empleado_buscar + "'";
+            ResultSet resultSet = statement.executeQuery(query);
+            if (resultSet.next()) {
+                String id_empleado = resultSet.getString("id_empleado");
+                String nombre = resultSet.getString("nombre");
+                String usuario = resultSet.getString("usuario");
+                String contrasena = resultSet.getString("contrasena");
+                String rol = resultSet.getString("rol");
+
+                System.out.println(id_empleado + "-" + nombre + " - " + usuario + " - " + contrasena + " - " + rol);
+            } else {
+                System.out.println("No existe el empleado con ese identificador");
+            }
+        } catch (SQLException error) {
+            System.out.println(error.getMessage());
+        }
+    }
+
+    public void insertEmpleado(String id_empleado, String nombre, String usuario, String contrasena, String rol) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "INSERT INTO empleado VALUES('" + id_empleado + "', '" + nombre + "', '" + usuario + "', '" + contrasena + "', '" + rol + "');";
+            int filasAfectadas = statement.executeUpdate(query);
+            System.out.println("\nFilas afectadas: " + filasAfectadas);
+
+            if (filasAfectadas > 0) {
+                System.out.println("Empleado registrado correctamente");
+            }
+
+        } catch (SQLException error) {
+            System.out.println(error.getMessage());
+        }
+    }
+
+    public void updateEmpleado(String id_empleado, String nombre, String usuario, String contrasena, String rol) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "UPDATE empleado SET nombre='" + nombre + "', usuario='" + usuario + "', contrasena='" + contrasena + "', rol='" + rol + "' WHERE id_empleado='" + id_empleado + "';";
+            int filasAfectadas = statement.executeUpdate(query);
+            System.out.println("Filas afectadas: " + filasAfectadas);
+            if (filasAfectadas > 0) {
+                System.out.println("Empleado actualizado correctamente");
+            }
+        } catch (SQLException error) {
+            System.out.println(error.getMessage());
+        }
+    }
+
+    // RECUERDA QUE LOS VALORES SON : id_empleado, nombre, usuario, contrasena, rol
+    //  a los strings encerrarlos entre '', como en el caso del nombre
+
+    public void deleteEmpleado(String id_empleado) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "DELETE FROM empleado WHERE id_empleado = '" + id_empleado + "'";
+            int filasAfectadas = statement.executeUpdate(query);
+            System.out.println("Filas afectadas: " + filasAfectadas);
+
+            if (filasAfectadas > 0) {
+                System.out.println("Empleado eliminado correctamente");
+            }
+        } catch (SQLException error) {
+            System.out.println(error.getMessage());
+        }
+    }
 }
