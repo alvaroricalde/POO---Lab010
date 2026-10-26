@@ -272,7 +272,7 @@ public class DatabaseConnector {
         try {
             Statement statement = connection.createStatement();
             String query = "UPDATE venta SET " +
-                    "id_empleado = '" + id_empleado + "', " +
+                    "id_empleado = '" + id_empleado + "' " +
                     " WHERE id_venta = '" + id_venta + "'";
             int filasAfectadas = statement.executeUpdate(query);
             System.out.println("Filas afectadas: " + filasAfectadas);
