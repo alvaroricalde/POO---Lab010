@@ -192,6 +192,7 @@ public class Main {
                                 break;
                         }
                     } while (opcionSubMenu != 6);
+                    break;
                 case 4:
                     System.out.println("Finalizando programa");
                     break;
