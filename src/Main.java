@@ -19,7 +19,7 @@ public class Main {
         do {
             System.out.println("\n1. Administrar la tabla PRODUCTOS" +
                     "\n2. Administrar la tabla EMPLEADOS" +
-                    "\n3. Administrar la 3ra tabla" +
+                    "\n3. Administrar la tabla VENTA" +
                     "\n4. Salir");
             opcion = Integer.parseInt(scanner.nextLine());
 
@@ -144,7 +144,54 @@ public class Main {
                     } while (opcionSubMenu != 6);
                     break;
                 case 3:
-                    break;
+                    do {
+                        System.out.println("\n1. Registrar una nueva venta" +
+                                "\n2. Listar las ventas registrados" +
+                                "\n3. Buscar una venta por su identificador" +
+                                "\n4. Actualizar una venta" +
+                                "\n5. Eliminar una venta" +
+                                "\n6. Regresar al menu principal");
+                        opcionSubMenu = Integer.parseInt(scanner.nextLine());
+                        switch (opcionSubMenu) {
+                            case 1:
+                                System.out.print("\nIngrese el identificador de la venta: ");
+                                String id_venta = scanner.nextLine();
+                                System.out.print("Ingrese el identificador del empleado: ");
+                                String id_empleado = scanner.nextLine();
+
+                                databaseConnector.insertVentas(id_venta, id_empleado);
+                                break;
+                            case 2:
+                                databaseConnector.selectVentas();
+                                break;
+                            case 3:
+                                System.out.print("\nIngrese el identificador de la venta a buscar: ");
+                                String id_venta_buscar = scanner.nextLine();
+
+                                databaseConnector.selectVentas(id_venta_buscar);
+                                break;
+                            case 4:
+                                System.out.print("\nIngrese el identificador de la venta a actualizar: ");
+                                String id_venta_actualizar = scanner.nextLine();
+                                System.out.print("Ingrese el nuevo identificador del empleado: ");
+                                String id_empleado_actualizar = scanner.nextLine();
+
+                                databaseConnector.updateVentas(id_venta_actualizar, id_empleado_actualizar);
+                                break;
+                            case 5:
+                                System.out.print("\nIngrese el identificador de la venta a eliminar: ");
+                                String id_venta_eliminar = scanner.nextLine();
+
+                                databaseConnector.deleteVentas(id_venta_eliminar);
+                                break;
+                            case 6:
+                                System.out.println("Regresando al menu principal");
+                                break;
+                            default:
+                                System.out.println("Opcion incorrecta");
+                                break;
+                        }
+                    } while (opcionSubMenu != 6);
                 case 4:
                     System.out.println("Finalizando programa");
                     break;
