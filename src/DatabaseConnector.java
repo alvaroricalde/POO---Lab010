@@ -206,4 +206,97 @@ public class DatabaseConnector {
             System.out.println(error.getMessage());
         }
     }
+
+    // Tabla Venta
+    public void selectVentas() {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM venta";
+
+            ResultSet resultSet = statement.executeQuery(query);
+
+            //si resulset tiene mas filas
+            while (resultSet.next()) {
+                String id_venta = resultSet.getString("id_venta");
+                String id_empleado = resultSet.getString("id_empleado");
+
+                System.out.println(id_venta + " - " + id_empleado);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void selectVentas(String id_venta_buscar) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM venta WHERE id_venta = '" + id_venta_buscar + "'";
+
+            ResultSet resultSet = statement.executeQuery(query);
+
+            //si resulset tiene mas filas
+            if (resultSet.next()) {
+                String id_venta = resultSet.getString("id_venta");
+                String id_empleado = resultSet.getString("id_empleado");
+
+                System.out.println(id_venta + " - " + id_empleado);
+            } else {
+                System.out.println("No se encontro una venta con ese identificador");
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void insertVentas(String id_venta, String id_empleado) {
+        try {
+            Statement statement = connection.createStatement();
+            //a los strings encerrarlos entre '', como en el caso del nombre
+            String query = "INSERT INTO venta VALUES('" + id_venta + "', '" + id_empleado + "' );";
+            int filasAfectadas = statement.executeUpdate(query);
+            System.out.println("\nFilas afectadas: " + filasAfectadas);
+
+            if (filasAfectadas > 0) {
+                System.out.println("Venta registrado correctamente");
+            }
+
+        } catch (SQLException error) {
+            System.out.println(error.getMessage());
+        }
+    }
+
+    public void updateVentas(String id_venta, String id_empleado) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "UPDATE venta SET " +
+                    "id_empleado = '" + id_empleado + "', " +
+                    " WHERE id_venta = '" + id_venta + "'";
+            int filasAfectadas = statement.executeUpdate(query);
+            System.out.println("Filas afectadas: " + filasAfectadas);
+
+            if (filasAfectadas > 0) {
+                System.out.println("Venta actualizado correctamente");
+            }
+        } catch (SQLException error) {
+            System.out.println(error.getMessage());
+        }
+    }
+
+    public void deleteVentas(String id_venta) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "DELETE FROM venta WHERE id_venta = '" + id_venta + "'";
+            int filasAfectadas = statement.executeUpdate(query);
+            System.out.println("Filas afectadas: " + filasAfectadas);
+
+            if (filasAfectadas > 0) {
+                System.out.println("Venta eliminado correctamente");
+            }
+        } catch (SQLException error) {
+            System.out.println(error.getMessage());
+        }
+    }
 }
