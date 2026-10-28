@@ -115,7 +115,7 @@ public class DatabaseConnector {
         }
     }
 
-    // TABLA EMPLEADOS -------------------------------------------------------
+    // TABLA EMPLEADOS --------------------------------------------------------------------
     public void selectEmpleado() {
         try {
             Statement statement = connection.createStatement();
@@ -140,9 +140,10 @@ public class DatabaseConnector {
 
     public void selectEmpleado(String id_empleado_buscar) {
         try {
-            Statement statement = connection.createStatement();
-            String query = "SELECT * FROM empleado WHERE id_empleado = '" + id_empleado_buscar + "'";
-            ResultSet resultSet = statement.executeQuery(query);
+            String query = "SELECT * FROM empleado WHERE id_empleado = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, id_empleado_buscar);
+            ResultSet resultSet = preparedStatement.executeQuery(query);
             if (resultSet.next()) {
                 String id_empleado = resultSet.getString("id_empleado");
                 String nombre = resultSet.getString("nombre");
@@ -158,13 +159,19 @@ public class DatabaseConnector {
             System.out.println(error.getMessage());
         }
     }
+    /* Por hacer */
 
     public void insertEmpleado(String id_empleado, String nombre, String usuario, String contrasena, String rol) {
         try {
-            Statement statement = connection.createStatement();
-            String query = "INSERT INTO empleado VALUES('" + id_empleado + "', '" + nombre + "', '" + usuario + "', '" + contrasena + "', '" + rol + "');";
-            int filasAfectadas = statement.executeUpdate(query);
-            System.out.println("\nFilas afectadas: " + filasAfectadas);
+            String query = "INSERT INTO empleado VALUES(?,?,?)";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, id_empleado);
+            preparedStatement.setString(2, usuario);
+            preparedStatement.setString(3, contrasena);
+            preparedStatement.setString(4, rol);
+            int filasAfectadas = preparedStatement.executeUpdate();
+            System.out.println("Filas afectadas: " + filasAfectadas);
 
             if (filasAfectadas > 0) {
                 System.out.println("Empleado registrado correctamente");
@@ -177,9 +184,23 @@ public class DatabaseConnector {
 
     public void updateEmpleado(String id_empleado, String nombre, String usuario, String contrasena, String rol) {
         try {
-            Statement statement = connection.createStatement();
-            String query = "UPDATE empleado SET nombre='" + nombre + "', usuario='" + usuario + "', contrasena='" + contrasena + "', rol='" + rol + "' WHERE id_empleado='" + id_empleado + "';";
-            int filasAfectadas = statement.executeUpdate(query);
+            //            String query = "UPDATE productos SET nombre = ?, precio = ? where codigo = ?";
+            //            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            //            preparedStatement.setString(1, nombre);
+            //            preparedStatement.setFloat(2, precio);
+            //            preparedStatement.setInt(3, codigo);
+            //            int filasAfectadas = preparedStatement.executeUpdate();
+            //            System.out.println("Filas afectadas: " + filasAfectadas);
+            //            productoController.actualizarProducto(codigo, nombre, precio);
+
+            String query = "UPDATE empleado SET nombre=?, usuario=?, contrasena=?, rol=? WHERE id_empleado = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, nombre);
+            preparedStatement.setString(2, usuario);
+            preparedStatement.setString(3, contrasena);
+            preparedStatement.setString(4, rol);
+            preparedStatement.setString(5, id_empleado);
+            int filasAfectadas = preparedStatement.executeUpdate(query);
             System.out.println("Filas afectadas: " + filasAfectadas);
             if (filasAfectadas > 0) {
                 System.out.println("Empleado actualizado correctamente");
@@ -194,9 +215,10 @@ public class DatabaseConnector {
 
     public void deleteEmpleado(String id_empleado) {
         try {
-            Statement statement = connection.createStatement();
-            String query = "DELETE FROM empleado WHERE id_empleado = '" + id_empleado + "'";
-            int filasAfectadas = statement.executeUpdate(query);
+            String query = "DELETE FROM empleado WHERE id_empleado = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, id_empleado);
+            int filasAfectadas = preparedStatement.executeUpdate(query);
             System.out.println("Filas afectadas: " + filasAfectadas);
 
             if (filasAfectadas > 0) {
