@@ -1,5 +1,7 @@
 package services;
 
+import controllers.VentaController;
+
 import java.sql.*;
 
 public class DatabaseConnector {
@@ -7,6 +9,12 @@ public class DatabaseConnector {
     private String usuario = "root";
     private String contrasena = "";
     private Connection connection;
+
+    private VentaController ventaController;
+
+    public DatabaseConnector(VentaController ventaController) {
+        this.ventaController = ventaController;
+    }
 
     public void conectarBaseDeDatos() {
         try {
@@ -243,8 +251,9 @@ public class DatabaseConnector {
             while (resultSet.next()) {
                 String id_venta = resultSet.getString("id_venta");
                 String id_empleado = resultSet.getString("id_empleado");
-
-                System.out.println(id_venta + " - " + id_empleado);
+                String id_cliente = resultSet.getString("id_cliente");
+                String fecha_venta = resultSet.getString("fecha_venta");
+                ventaController.agregarVenta(id_venta, id_empleado, id_cliente, fecha_venta);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -258,14 +267,16 @@ public class DatabaseConnector {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, id_venta_buscar);
 
-            ResultSet resultSet = preparedStatement.executeQuery(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             //si resulset tiene mas filas
             if (resultSet.next()) {
                 String id_venta = resultSet.getString("id_venta");
                 String id_empleado = resultSet.getString("id_empleado");
+                String id_cliente = resultSet.getString("id_cliente");
+                String fecha_venta = resultSet.getString("fecha_venta");
 
-                System.out.println(id_venta + " - " + id_empleado);
+                ventaController.agregarVenta(id_venta, id_empleado, id_cliente, fecha_venta);
             } else {
                 System.out.println("No se encontro una venta con ese identificador");
             }
@@ -284,13 +295,13 @@ public class DatabaseConnector {
             preparedStatement.setString(2, id_empleado);
             preparedStatement.setString(3, id_cliente);
             preparedStatement.setString(4, fecha_venta);
-            int filasAfectadas = preparedStatement.executeUpdate(query);
+            int filasAfectadas = preparedStatement.executeUpdate();
             System.out.println("\nFilas afectadas: " + filasAfectadas);
 
             if (filasAfectadas > 0) {
                 System.out.println("Venta registrado correctamente");
+                ventaController.agregarVenta(id_venta, id_empleado, id_cliente, fecha_venta);
             }
-
         } catch (SQLException error) {
             System.out.println(error.getMessage());
         }
@@ -304,11 +315,11 @@ public class DatabaseConnector {
             preparedStatement.setString(2, id_cliente);
             preparedStatement.setString(3, fecha_venta);
             preparedStatement.setString(4, id_venta);
-            int filasAfectadas = preparedStatement.executeUpdate(query);
+            int filasAfectadas = preparedStatement.executeUpdate();
             System.out.println("Filas afectadas: " + filasAfectadas);
-
             if (filasAfectadas > 0) {
                 System.out.println("Venta actualizado correctamente");
+                ventaController.actualizarVenta(id_venta, id_empleado, id_cliente, fecha_venta);
             }
         } catch (SQLException error) {
             System.out.println(error.getMessage());
@@ -320,11 +331,12 @@ public class DatabaseConnector {
             String query = "DELETE FROM venta WHERE id_venta = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, id_venta);
-            int filasAfectadas = preparedStatement.executeUpdate(query);
+            int filasAfectadas = preparedStatement.executeUpdate();
             System.out.println("Filas afectadas: " + filasAfectadas);
 
             if (filasAfectadas > 0) {
                 System.out.println("Venta eliminado correctamente");
+                ventaController.eliminarVenta(id_venta);
             }
         } catch (SQLException error) {
             System.out.println(error.getMessage());

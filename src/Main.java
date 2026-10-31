@@ -1,10 +1,12 @@
+import controllers.VentaController;
 import services.DatabaseConnector;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        DatabaseConnector databaseConnector = new DatabaseConnector();
+        VentaController ventaController = new VentaController();
+        DatabaseConnector databaseConnector = new DatabaseConnector(ventaController);
         databaseConnector.conectarBaseDeDatos();
         //databaseConnector.selectProductos();
 
