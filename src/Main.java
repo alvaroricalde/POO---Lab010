@@ -161,7 +161,7 @@ public class Main {
                                 System.out.print("Ingrese el identificador del empleado: ");
                                 String id_empleado = scanner.nextLine();
 
-                                databaseConnector.insertVentas(id_venta, id_empleado);
+                                //databaseConnector.insertVentas(id_venta, id_empleado);
                                 break;
                             case 2:
                                 databaseConnector.selectVentas();
@@ -178,7 +178,7 @@ public class Main {
                                 System.out.print("Ingrese el nuevo identificador del empleado: ");
                                 String id_empleado_actualizar = scanner.nextLine();
 
-                                databaseConnector.updateVentas(id_venta_actualizar, id_empleado_actualizar);
+                                //databaseConnector.updateVentas(id_venta_actualizar, id_empleado_actualizar);
                                 break;
                             case 5:
                                 System.out.print("\nIngrese el identificador de la venta a eliminar: ");

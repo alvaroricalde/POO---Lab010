@@ -254,10 +254,11 @@ public class DatabaseConnector {
 
     public void selectVentas(String id_venta_buscar) {
         try {
-            Statement statement = connection.createStatement();
-            String query = "SELECT * FROM venta WHERE id_venta = '" + id_venta_buscar + "'";
+            String query = "SELECT * FROM venta WHERE id_venta = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, id_venta_buscar);
 
-            ResultSet resultSet = statement.executeQuery(query);
+            ResultSet resultSet = preparedStatement.executeQuery(query);
 
             //si resulset tiene mas filas
             if (resultSet.next()) {
@@ -275,12 +276,15 @@ public class DatabaseConnector {
 
     }
 
-    public void insertVentas(String id_venta, String id_empleado) {
+    public void insertVentas(String id_venta, String id_empleado, String id_cliente, String fecha_venta) {
         try {
-            Statement statement = connection.createStatement();
-            //a los strings encerrarlos entre '', como en el caso del nombre
-            String query = "INSERT INTO venta VALUES('" + id_venta + "', '" + id_empleado + "' );";
-            int filasAfectadas = statement.executeUpdate(query);
+            String query = "INSERT INTO venta VALUES(?, ?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, id_venta);
+            preparedStatement.setString(2, id_empleado);
+            preparedStatement.setString(3, id_cliente);
+            preparedStatement.setString(4, fecha_venta);
+            int filasAfectadas = preparedStatement.executeUpdate(query);
             System.out.println("\nFilas afectadas: " + filasAfectadas);
 
             if (filasAfectadas > 0) {
@@ -292,13 +296,15 @@ public class DatabaseConnector {
         }
     }
 
-    public void updateVentas(String id_venta, String id_empleado) {
+    public void updateVentas(String id_venta, String id_empleado, String id_cliente, String fecha_venta) {
         try {
-            Statement statement = connection.createStatement();
-            String query = "UPDATE venta SET " +
-                    "id_empleado = '" + id_empleado + "' " +
-                    " WHERE id_venta = '" + id_venta + "'";
-            int filasAfectadas = statement.executeUpdate(query);
+            String query = "UPDATE venta SET id_empleado = ?, id_cliente = ?, fecha_venta = ? WHERE id_venta = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, id_empleado);
+            preparedStatement.setString(2, id_cliente);
+            preparedStatement.setString(3, fecha_venta);
+            preparedStatement.setString(4, id_venta);
+            int filasAfectadas = preparedStatement.executeUpdate(query);
             System.out.println("Filas afectadas: " + filasAfectadas);
 
             if (filasAfectadas > 0) {
@@ -311,9 +317,10 @@ public class DatabaseConnector {
 
     public void deleteVentas(String id_venta) {
         try {
-            Statement statement = connection.createStatement();
-            String query = "DELETE FROM venta WHERE id_venta = '" + id_venta + "'";
-            int filasAfectadas = statement.executeUpdate(query);
+            String query = "DELETE FROM venta WHERE id_venta = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, id_venta);
+            int filasAfectadas = preparedStatement.executeUpdate(query);
             System.out.println("Filas afectadas: " + filasAfectadas);
 
             if (filasAfectadas > 0) {
