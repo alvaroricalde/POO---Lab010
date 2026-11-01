@@ -1,20 +1,20 @@
 import controllers.VentaController;
 import services.DatabaseConnector;
+import views.MainView;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        VentaController ventaController = new VentaController();
+        DatabaseConnector databaseConnector = new DatabaseConnector(ventaController);
+        MainView mainView = new MainView(ventaController, databaseConnector, scanner);
+        mainView.ejecutar();
+        /*
         VentaController ventaController = new VentaController();
         DatabaseConnector databaseConnector = new DatabaseConnector(ventaController);
         databaseConnector.conectarBaseDeDatos();
-        //databaseConnector.selectProductos();
-
-
-        //databaseConnector.insertProductos("P6", "Camisa", 35, 20);
-        //databaseConnector.updateProducto("P6", "Camiseta", 30, 35);
-
-        //databaseConnector.deleteProducto("P6");
 
         Scanner scanner = new Scanner(System.in);
 
@@ -205,6 +205,6 @@ public class Main {
                     break;
             }
         } while (opcion != 4);
-
+        */
     }
 }

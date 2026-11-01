@@ -18,6 +18,15 @@ public class VentaController {
         }
     }
 
+    public void buscarVenta(String id_venta) {
+        for (int i = 0; i < listaVentas.size(); i++) {
+            if (id_venta.equals(listaVentas.get(i).getId_venta())) {
+                listaVentas.get(i).mostrarInformacion();
+                break;
+            }
+        }
+    }
+
     public void actualizarVenta(String id_venta, String id_empleado, String id_cliente, String fecha_venta) {
         for (int i = 0; i < listaVentas.size(); ++i) {
             if (id_venta.equals(listaVentas.get(i).getId_venta())) {

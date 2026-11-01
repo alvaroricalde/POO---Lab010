@@ -6,12 +6,17 @@ import services.DatabaseConnector;
 import java.util.Scanner;
 
 public class MainView {
+    private VentaController ventaController;
+    private DatabaseConnector databaseConnector;
+    private Scanner scanner;
+
+    public MainView(VentaController ventaController, DatabaseConnector databaseConnector, Scanner scanner) {
+        this.ventaController = ventaController;
+        this.databaseConnector = databaseConnector;
+        this.scanner = scanner;
+    }
+
     public void ejecutar() {
-        Scanner scanner = new Scanner(System.in);
-
-        VentaController ventaController = new VentaController();
-        DatabaseConnector databaseConnector = new DatabaseConnector(ventaController);
-
         boolean ejecutando = true;
         int opcion;
         while (ejecutando) {
@@ -22,7 +27,7 @@ public class MainView {
                     "\n5. Salir");
             System.out.print("Ingresa una opcion: ");
             opcion = Integer.parseInt(scanner.nextLine());
-            switch (opcion){
+            switch (opcion) {
                 case 1:
                     databaseConnector.conectarBaseDeDatos();
                     break;
@@ -31,7 +36,12 @@ public class MainView {
                 case 3:
                     break;
                 case 4:
+                    VentaView ventaView = new VentaView(ventaController, databaseConnector, scanner);
+                    ventaView.ejecutar();
+                    break;
+                case 5:
                     System.out.println("Finalizando programa");
+                    ejecutando = false;
                     break;
                 default:
                     System.out.println("Opcion incorrecta");

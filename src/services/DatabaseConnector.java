@@ -276,7 +276,7 @@ public class DatabaseConnector {
                 String id_cliente = resultSet.getString("id_cliente");
                 String fecha_venta = resultSet.getString("fecha_venta");
 
-                ventaController.agregarVenta(id_venta, id_empleado, id_cliente, fecha_venta);
+                ventaController.buscarVenta(id_venta_buscar);
             } else {
                 System.out.println("No se encontro una venta con ese identificador");
             }
