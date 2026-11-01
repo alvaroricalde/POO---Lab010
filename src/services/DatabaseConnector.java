@@ -1,5 +1,6 @@
 package services;
 
+import controllers.EmpleadoController;
 import controllers.VentaController;
 
 import java.sql.*;
@@ -11,9 +12,11 @@ public class DatabaseConnector {
     private Connection connection;
 
     private VentaController ventaController;
+    private EmpleadoController empleadoController;
 
-    public DatabaseConnector(VentaController ventaController) {
+    public DatabaseConnector(VentaController ventaController,  EmpleadoController empleadoController) {
         this.ventaController = ventaController;
+        this.empleadoController = empleadoController;
     }
 
     public void conectarBaseDeDatos() {
@@ -141,7 +144,7 @@ public class DatabaseConnector {
                 String contrasena = resultSet.getString("contrasena");
                 String rol = resultSet.getString("rol");
 
-                System.out.println(id_empleado + " - " + nombre + " - " + usuario + " - " + contrasena + " - " + rol);
+                empleadoController.agregarEmpleado(id_empleado, nombre, usuario, contrasena, rol);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -160,7 +163,6 @@ public class DatabaseConnector {
                 String usuario = resultSet.getString("usuario");
                 String contrasena = resultSet.getString("contrasena");
                 String rol = resultSet.getString("rol");
-
                 System.out.println(id_empleado + "-" + nombre + " - " + usuario + " - " + contrasena + " - " + rol);
             } else {
                 System.out.println("No existe el empleado con ese identificador");
@@ -173,20 +175,20 @@ public class DatabaseConnector {
 
     public void insertEmpleado(String id_empleado, String nombre, String usuario, String contrasena, String rol) {
         try {
-            String query = "INSERT INTO empleado VALUES(?,?,?)";
+            String query = "INSERT INTO empleado VALUES(?,?,?,?,?)";
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, id_empleado);
+            preparedStatement.setString(1, nombre);
             preparedStatement.setString(2, usuario);
             preparedStatement.setString(3, contrasena);
             preparedStatement.setString(4, rol);
             int filasAfectadas = preparedStatement.executeUpdate();
             System.out.println("Filas afectadas: " + filasAfectadas);
-
+            empleadoController.agregarEmpleado(id_empleado, nombre, usuario, contrasena, rol);
             if (filasAfectadas > 0) {
                 System.out.println("Empleado registrado correctamente");
             }
-
         } catch (SQLException error) {
             System.out.println(error.getMessage());
         }
@@ -210,11 +212,12 @@ public class DatabaseConnector {
             preparedStatement.setString(3, contrasena);
             preparedStatement.setString(4, rol);
             preparedStatement.setString(5, id_empleado);
-            int filasAfectadas = preparedStatement.executeUpdate(query);
+            int filasAfectadas = preparedStatement.executeUpdate();
             System.out.println("Filas afectadas: " + filasAfectadas);
             if (filasAfectadas > 0) {
                 System.out.println("Empleado actualizado correctamente");
             }
+            empleadoController.actualizarEmpleado(id_empleado, nombre, usuario, contrasena, rol);
         } catch (SQLException error) {
             System.out.println(error.getMessage());
         }
@@ -228,12 +231,12 @@ public class DatabaseConnector {
             String query = "DELETE FROM empleado WHERE id_empleado = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, id_empleado);
-            int filasAfectadas = preparedStatement.executeUpdate(query);
+            int filasAfectadas = preparedStatement.executeUpdate();
             System.out.println("Filas afectadas: " + filasAfectadas);
-
             if (filasAfectadas > 0) {
                 System.out.println("Empleado eliminado correctamente");
             }
+            empleadoController.eliminarEmpleado(id_empleado);
         } catch (SQLException error) {
             System.out.println(error.getMessage());
         }
@@ -333,7 +336,6 @@ public class DatabaseConnector {
             preparedStatement.setString(1, id_venta);
             int filasAfectadas = preparedStatement.executeUpdate();
             System.out.println("Filas afectadas: " + filasAfectadas);
-
             if (filasAfectadas > 0) {
                 System.out.println("Venta eliminado correctamente");
                 ventaController.eliminarVenta(id_venta);

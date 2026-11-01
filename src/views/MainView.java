@@ -1,5 +1,6 @@
 package views;
 
+import controllers.EmpleadoController;
 import controllers.VentaController;
 import services.DatabaseConnector;
 
@@ -7,11 +8,13 @@ import java.util.Scanner;
 
 public class MainView {
     private VentaController ventaController;
+    private EmpleadoController empleadoController;
     private DatabaseConnector databaseConnector;
     private Scanner scanner;
 
-    public MainView(VentaController ventaController, DatabaseConnector databaseConnector, Scanner scanner) {
+    public MainView(VentaController ventaController,EmpleadoController empleadoController, DatabaseConnector databaseConnector, Scanner scanner) {
         this.ventaController = ventaController;
+        this.empleadoController = empleadoController;
         this.databaseConnector = databaseConnector;
         this.scanner = scanner;
     }
@@ -34,6 +37,7 @@ public class MainView {
                 case 2:
                     break;
                 case 3:
+                    EmpleadoView empleadoView = new EmpleadoView(empleadoController,databaseConnector,scanner);
                     break;
                 case 4:
                     VentaView ventaView = new VentaView(ventaController, databaseConnector, scanner);

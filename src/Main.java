@@ -1,3 +1,4 @@
+import controllers.EmpleadoController;
 import controllers.VentaController;
 import services.DatabaseConnector;
 import views.MainView;
@@ -8,8 +9,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         VentaController ventaController = new VentaController();
-        DatabaseConnector databaseConnector = new DatabaseConnector(ventaController);
-        MainView mainView = new MainView(ventaController, databaseConnector, scanner);
+        EmpleadoController empleadoController = new EmpleadoController();
+        DatabaseConnector databaseConnector = new DatabaseConnector(ventaController,empleadoController);
+        MainView mainView = new MainView(ventaController, empleadoController, databaseConnector, scanner);
         mainView.ejecutar();
         /*
         VentaController ventaController = new VentaController();
