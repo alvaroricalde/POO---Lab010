@@ -38,6 +38,7 @@ public class MainView {
                     break;
                 case 3:
                     EmpleadoView empleadoView = new EmpleadoView(empleadoController,databaseConnector,scanner);
+                    empleadoView.ejecutar();
                     break;
                 case 4:
                     VentaView ventaView = new VentaView(ventaController, databaseConnector, scanner);
