@@ -5,7 +5,7 @@ import controllers.VentaController;
 import services.DatabaseConnector;
 
 import java.util.Scanner;
-
+// VOY A AGREGAR ALGO
 public class MainView {
     private VentaController ventaController;
     private EmpleadoController empleadoController;
