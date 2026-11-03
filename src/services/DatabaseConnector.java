@@ -66,7 +66,6 @@ public class DatabaseConnector {
                 String nombre = resultSet.getString("nombre");
                 float precio = resultSet.getFloat("precio");
                 int stock = resultSet.getInt("stock");
-
                 productoController.buscarProducto(id_producto_buscar);
             } else {
                 System.out.println("No se encontro un producto con ese identificador");
@@ -164,14 +163,14 @@ public class DatabaseConnector {
             String query = "SELECT * FROM empleado WHERE id_empleado = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, id_empleado_buscar);
-            ResultSet resultSet = preparedStatement.executeQuery(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 String id_empleado = resultSet.getString("id_empleado");
                 String nombre = resultSet.getString("nombre");
                 String usuario = resultSet.getString("usuario");
                 String contrasena = resultSet.getString("contrasena");
                 String rol = resultSet.getString("rol");
-                System.out.println(id_empleado + "-" + nombre + " - " + usuario + " - " + contrasena + " - " + rol);
+                empleadoController.buscarEmpleado(id_empleado);
             } else {
                 System.out.println("No existe el empleado con ese identificador");
             }
@@ -187,10 +186,10 @@ public class DatabaseConnector {
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, id_empleado);
-            preparedStatement.setString(1, nombre);
-            preparedStatement.setString(2, usuario);
-            preparedStatement.setString(3, contrasena);
-            preparedStatement.setString(4, rol);
+            preparedStatement.setString(2, nombre);
+            preparedStatement.setString(3, usuario);
+            preparedStatement.setString(4, contrasena);
+            preparedStatement.setString(5, rol);
             int filasAfectadas = preparedStatement.executeUpdate();
             System.out.println("Filas afectadas: " + filasAfectadas);
             empleadoController.agregarEmpleado(id_empleado, nombre, usuario, contrasena, rol);

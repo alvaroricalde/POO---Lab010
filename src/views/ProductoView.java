@@ -21,7 +21,7 @@ public class ProductoView {
         int opcion;
         while (ejecutando) {
             System.out.println("\n1. Insertar producto" +
-                    "\n2. Consultar producto" +
+                    "\n2. Consultar productos" +
                     "\n3. Buscar un producto" +
                     "\n4. Actualizar producto" +
                     "\n5. Eliminar producto" +
@@ -36,7 +36,7 @@ public class ProductoView {
                     System.out.print("Ingrese el nombre del producto: ");
                     String nombre = scanner.nextLine();
                     System.out.print("Ingrese el precio del producto: ");
-                    float precio = Integer.parseInt(scanner.nextLine());
+                    float precio = Float.parseFloat(scanner.nextLine());
                     System.out.print("Ingrese la stock del producto: ");
                     int stock= Integer.parseInt(scanner.nextLine());
                     databaseConnector.insertProductos(id_empleado, nombre, precio, stock);
@@ -49,16 +49,16 @@ public class ProductoView {
                     System.out.print("\nIngrese el codigo del producto a buscar: ");
                     String id_producto_buscar = scanner.nextLine();
 
-                    databaseConnector.selectEmpleado(id_producto_buscar);
+                    databaseConnector.selectProductos(id_producto_buscar);
                     break;
                 case 4:
                     System.out.print("\nIngrese el identificador del producto a actualizar: ");
                     String id_producto_actualizar = scanner.nextLine();
                     System.out.print("Ingrese el nuevo nombre del producto: ");
                     String nombre_nuevo = scanner.nextLine();
-                    System.out.print("Ingrese el nuevo usuario del producto: ");
+                    System.out.print("Ingrese el nuevo precio del producto: ");
                     float precio_nuevo = Float.parseFloat(scanner.nextLine());
-                    System.out.print("Ingrese la nueva contrasena del producto: ");
+                    System.out.print("Ingrese el stock del producto: ");
                     int stock_nuevo = Integer.parseInt(scanner.nextLine());
 
                     databaseConnector.updateProducto(id_producto_actualizar, nombre_nuevo, precio_nuevo, stock_nuevo);

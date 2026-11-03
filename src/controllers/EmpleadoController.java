@@ -14,6 +14,14 @@ public class EmpleadoController {
         listaEmpleados.add(nuevoEmpleado);
     }
 
+    public void buscarEmpleado(String id_empleado) {
+        for (int i = 0; i < listaEmpleados.size(); i++) {
+            if (listaEmpleados.get(i).getId_empleado().equals(id_empleado)) {
+                listaEmpleados.get(i).mostrarInformacion();
+            }
+        }
+    }
+
     public void listarEmpleados() {
         for (int i = 0; i < listaEmpleados.size(); i++) {
             listaEmpleados.get(i).mostrarInformacion();

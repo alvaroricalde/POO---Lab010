@@ -30,7 +30,6 @@ public class ProductoController {
     public void actualizarProductos(String id_producto, String nombre, float precio, int stock) {
         for (int i = 0; i < listaProductos.size(); i++) {
             if (id_producto.equals(listaProductos.get(i).getId_producto())) {
-                listaProductos.get(i).setId_producto(nombre);
                 listaProductos.get(i).setNombre(nombre);
                 listaProductos.get(i).setPrecio(precio);
                 listaProductos.get(i).setStock(stock);
