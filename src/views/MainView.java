@@ -1,20 +1,24 @@
 package views;
 
 import controllers.EmpleadoController;
+import controllers.ProductoController;
 import controllers.VentaController;
 import services.DatabaseConnector;
 
 import java.util.Scanner;
+
 // VOY A AGREGAR ALGO
 public class MainView {
     private VentaController ventaController;
     private EmpleadoController empleadoController;
+    private ProductoController productoController;
     private DatabaseConnector databaseConnector;
     private Scanner scanner;
 
-    public MainView(VentaController ventaController,EmpleadoController empleadoController, DatabaseConnector databaseConnector, Scanner scanner) {
+    public MainView(VentaController ventaController, EmpleadoController empleadoController, ProductoController productoController, DatabaseConnector databaseConnector, Scanner scanner) {
         this.ventaController = ventaController;
         this.empleadoController = empleadoController;
+        this.productoController = productoController;
         this.databaseConnector = databaseConnector;
         this.scanner = scanner;
     }
@@ -35,9 +39,11 @@ public class MainView {
                     databaseConnector.conectarBaseDeDatos();
                     break;
                 case 2:
+                    ProductoView productoView = new ProductoView(productoController, databaseConnector, scanner);
+                    productoView.ejecutar();
                     break;
                 case 3:
-                    EmpleadoView empleadoView = new EmpleadoView(empleadoController,databaseConnector,scanner);
+                    EmpleadoView empleadoView = new EmpleadoView(empleadoController, databaseConnector, scanner);
                     empleadoView.ejecutar();
                     break;
                 case 4:
