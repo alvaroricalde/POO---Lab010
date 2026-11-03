@@ -18,6 +18,15 @@ public class ProductoController {
         }
     }
 
+    public void buscarProducto(String id_producto) {
+        for (int i = 0; i < listaProductos.size(); i++) {
+            if (id_producto.equals(listaProductos.get(i).getId_producto())) {
+                listaProductos.get(i).mostrarInformacion();
+                break;
+            }
+        }
+    }
+
     public void actualizarProductos(String id_producto, String nombre, float precio, int stock) {
         for (int i = 0; i < listaProductos.size(); i++) {
             if (id_producto.equals(listaProductos.get(i).getId_producto())) {

@@ -1,6 +1,7 @@
 package services;
 
 import controllers.EmpleadoController;
+import controllers.ProductoController;
 import controllers.VentaController;
 
 import java.sql.*;
@@ -13,10 +14,12 @@ public class DatabaseConnector {
 
     private VentaController ventaController;
     private EmpleadoController empleadoController;
+    private ProductoController productoController;
 
-    public DatabaseConnector(VentaController ventaController,  EmpleadoController empleadoController) {
+    public DatabaseConnector(VentaController ventaController, EmpleadoController empleadoController, ProductoController productoController) {
         this.ventaController = ventaController;
         this.empleadoController = empleadoController;
+        this.productoController = productoController;
     }
 
     public void conectarBaseDeDatos() {
@@ -42,7 +45,7 @@ public class DatabaseConnector {
                 float precio = resultSet.getFloat("precio");
                 int stock = resultSet.getInt("stock");
 
-                System.out.println(id_producto + " - " + nombre + " - " + precio + " - " + stock);
+                productoController.agregarProducto(id_producto, nombre, precio, stock);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -52,10 +55,10 @@ public class DatabaseConnector {
 
     public void selectProductos(String id_producto_buscar) {
         try {
-            Statement statement = connection.createStatement();
-            String query = "SELECT * FROM producto WHERE id_producto = '" + id_producto_buscar + "'";
-
-            ResultSet resultSet = statement.executeQuery(query);
+            String query = "SELECT * FROM producto WHERE id_producto = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, id_producto_buscar);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             //si resulset tiene mas filas
             if (resultSet.next()) {
@@ -64,7 +67,7 @@ public class DatabaseConnector {
                 float precio = resultSet.getFloat("precio");
                 int stock = resultSet.getInt("stock");
 
-                System.out.println(id_producto + " - " + nombre + " - " + precio + " - " + stock);
+                productoController.buscarProducto(id_producto_buscar);
             } else {
                 System.out.println("No se encontro un producto con ese identificador");
             }
@@ -77,16 +80,18 @@ public class DatabaseConnector {
 
     public void insertProductos(String id_producto, String nombre, float precio, int stock) {
         try {
-            Statement statement = connection.createStatement();
-            //a los strings encerrarlos entre '', como en el caso del nombre
-            String query = "INSERT INTO producto VALUES('"
-                    + id_producto + "', '" + nombre + "', "
-                    + precio + ", " + stock + ");";
-            int filasAfectadas = statement.executeUpdate(query);
+            String query = "INSERT INTO producto VALUES(?, ?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, id_producto);
+            preparedStatement.setString(2, nombre);
+            preparedStatement.setFloat(3, precio);
+            preparedStatement.setInt(4, stock);
+            int filasAfectadas = preparedStatement.executeUpdate();
             System.out.println("\nFilas afectadas: " + filasAfectadas);
 
             if (filasAfectadas > 0) {
                 System.out.println("Producto registrado correctamente");
+                productoController.agregarProducto(id_producto, nombre, precio, stock);
             }
 
         } catch (SQLException error) {
@@ -96,17 +101,18 @@ public class DatabaseConnector {
 
     public void updateProducto(String id_producto, String nombre, float precio, int stock) {
         try {
-            Statement statement = connection.createStatement();
-            String query = "UPDATE producto SET " +
-                    "nombre = '" + nombre + "', " +
-                    "precio = " + precio + ", " +
-                    "stock = " + stock +
-                    " WHERE id_producto = '" + id_producto + "'";
-            int filasAfectadas = statement.executeUpdate(query);
+            String query = "UPDATE producto SET nombre = ?, precio = ?, stock = ? WHERE id_producto = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, nombre);
+            preparedStatement.setFloat(2, precio);
+            preparedStatement.setInt(3, stock);
+            preparedStatement.setString(4, id_producto);
+            int filasAfectadas = preparedStatement.executeUpdate();
             System.out.println("Filas afectadas: " + filasAfectadas);
 
             if (filasAfectadas > 0) {
                 System.out.println("Producto actualizado correctamente");
+                productoController.actualizarProductos(id_producto, nombre, precio, stock);
             }
         } catch (SQLException error) {
             System.out.println(error.getMessage());
@@ -115,13 +121,15 @@ public class DatabaseConnector {
 
     public void deleteProducto(String id_producto) {
         try {
-            Statement statement = connection.createStatement();
-            String query = "DELETE FROM producto WHERE id_producto = '" + id_producto + "'";
-            int filasAfectadas = statement.executeUpdate(query);
+            String query = "DELETE FROM producto WHERE id_producto = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, id_producto);
+            int filasAfectadas = preparedStatement.executeUpdate();
             System.out.println("Filas afectadas: " + filasAfectadas);
 
             if (filasAfectadas > 0) {
                 System.out.println("Producto eliminado correctamente");
+                productoController.eliminarProductos(id_producto);
             }
         } catch (SQLException error) {
             System.out.println(error.getMessage());
